@@ -1,2 +1,7 @@
 *.venv
 *.ipynb_checkpoints
+__pycache__
+build
+data
+dist
+app.spec
