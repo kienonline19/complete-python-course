@@ -4,4 +4,4 @@ __pycache__
 build
 data
 dist
-app.spec
+*.spec
