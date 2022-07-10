@@ -15,3 +15,13 @@ print(arr1)
 
 arr1.insert(2, -1)
 print(arr1)
+
+print('--------------------------------------------')
+
+def traverse_array(arr):
+    for i in arr:
+        print(i, end=' ')
+
+
+traverse_array(arr1)
+

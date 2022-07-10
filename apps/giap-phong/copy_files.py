@@ -5,48 +5,54 @@ import win32event
 import win32service
 import win32serviceutil
 import shutil
-from glob import glob
 import os
+from glob import glob
 
 
 class MyService(win32serviceutil.ServiceFramework):
     _svc_name_ = "GiapPhongService"  # Service Name (exe)
-    # Service Name which will display in the Winfows Services Window
     _svc_display_name_ = "Giap Phong Service"
-    # Service Name which will display in the Winfows Services Window
     _svc_description_ = "My service description"
 
-    extension = '.dat'
-    pattern1 = 'E1-2F-S10-NXT'
-    pattern2 = 'E1-2F-S05-NXT'
-    separator = '/'
-
     def __init__(self, args):
-        '''
-        Used to initialize the service utility.
-        '''
+
+        self.params = {
+            "src": "D:/data",
+            "out1": "D:/data1",
+            "out2": "D:/data2",
+            "extension": ".dat",
+            "pattern1": "E1-2F-S10-NXT",
+            "pattern2": "E1-2F-S05-NXT",
+            "separator": "/"
+        }
+
         win32serviceutil.ServiceFramework.__init__(self, args)
         self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)
         socket.setdefaulttimeout(60)
 
     def SvcStop(self):
-        '''
-        Used to stop the service utility (restart / timeout / shutdown)
-        '''
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
         win32event.SetEvent(self.hWaitStop)
 
-    @staticmethod
-    def get_files(my_path):
+    def get_files(self, my_path):
+
+        separator = self.params["separator"]
+
         return (
-            y.replace('\\', MyService.separator)
+            y.replace('\\', separator)
             for x in os.walk(my_path)
-            for y in glob(os.path.join(x[0], '*{}'.format(MyService.extension)))
+            for y in glob(os.path.join(x[0], '*{}'.format(self.params["extension"])))
         )
 
-    @staticmethod
-    def copy_files(dst1, dst2, data_folder):
-        result = MyService.get_files(data_folder)
+    def main(self):
+        data_folder = self.params["src"]
+        dst1 = self.params["out1"]
+        dst2 = self.params["out2"]
+        pattern1 = self.params["pattern1"]
+        pattern2 = self.params["pattern2"]
+        separator = self.params["separator"]
+
+        result = self.get_files(data_folder)
         if not os.path.exists(dst1):
             os.makedirs(dst1)
 
@@ -54,29 +60,19 @@ class MyService(win32serviceutil.ServiceFramework):
             os.makedirs(dst2)
 
         for file_name in result:
-            fname = file_name.split(MyService.separator)[-1]
+            fname = file_name.split(separator)[-1]
 
-            if MyService.pattern1 in file_name:
+            if pattern1 in fname:
                 shutil.copy(file_name, os.path.join(dst1, fname))
-            elif MyService.pattern2 in fname:
+                os.remove(file_name)
+            elif pattern2 in fname:
                 shutil.copy(file_name, os.path.join(dst2, fname))
-
-    @staticmethod
-    def main():
-        path = 'D:/{}'
-        MyService.copy_files(
-            path.format('data1'),
-            path.format('data2'),
-            path.format('data'),
-        )
+                os.remove(file_name)
 
     def SvcDoRun(self):
-        '''
-        Used to execute all the piece of code that you want service to perform.
-        '''
         rc = None
         while rc != win32event.WAIT_OBJECT_0:
-            MyService.main()
+            self.main()
         rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)
 
 
