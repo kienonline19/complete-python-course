@@ -25,3 +25,15 @@ def traverse_array(arr):
 
 traverse_array(arr1)
 
+print('\n--------------------------------------------')
+
+def access_element(arr, idx): # O(1) time | O(1) space complexity
+    if -len(arr) <= idx < len(arr):
+        return arr[idx]
+
+    return f"There is not any element in this index"
+
+
+print(access_element(arr1, -10))
+
+
