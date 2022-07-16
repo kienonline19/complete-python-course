@@ -37,3 +37,18 @@ def access_element(arr, idx): # O(1) time | O(1) space complexity
 print(access_element(arr1, -10))
 
 
+def search_in_array(arr, x): # begin - O(1) -> time <- any#begin - O(N) | space - O(1)
+    for i in range(len(arr)):
+        if arr[i] == x:
+            return i
+
+    return "This element does not exist in this array"
+
+
+print(search_in_array(arr1, -10))
+
+# Deletion
+arr1.remove(4) # remove last element - O(1) time - O(N) time
+
+print(arr1)
+

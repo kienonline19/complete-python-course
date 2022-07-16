@@ -6,11 +6,12 @@ import win32service
 import win32serviceutil
 import shutil
 import os
+import time
 from glob import glob
 
 
 class MyService(win32serviceutil.ServiceFramework):
-    _svc_name_ = "GiapPhongService"  # Service Name (exe)
+    _svc_name_ = "GiapPhongService"
     _svc_display_name_ = "Giap Phong Service"
     _svc_description_ = "My service description"
 
@@ -72,7 +73,9 @@ class MyService(win32serviceutil.ServiceFramework):
     def SvcDoRun(self):
         rc = None
         while rc != win32event.WAIT_OBJECT_0:
-            self.main()
+            while True:
+                self.main()
+                time.sleep(5 * 60)
         rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)
 
 
