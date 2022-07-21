@@ -40,3 +40,8 @@ print("Step 8 - Pop remove last element")
 elem = arr_int.pop()
 print(elem)
 print(arr_int)
+
+print("Step 9 - Index")
+idx = arr_int.index(3)
+
+print(idx)
