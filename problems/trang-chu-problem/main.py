@@ -142,6 +142,7 @@ while True:
                                 user['password'] = new_password
                                 print("Your Password has been reset successfully.")
                                 flag = True
+                                break
 
                         if not flag:
                             print("You have used the maximum attempts of Login:")
