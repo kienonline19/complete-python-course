@@ -217,7 +217,6 @@ while True:
         info = get_user_input()
         user = SignUp.process_signup(info)
         users.append(user.__dict__)
-        print(users[0])
 
     elif user_option == 2:
         user_name = input("Please enter your Username (Mobile Number):")
@@ -232,11 +231,13 @@ while True:
                         user['password'] == user_password:
                     new_user = user
                     print("You have successfully Signed in")
+                    break
 
             if new_user is not None:
+                orders = []
+
                 while True:
                     home_page_option = input(HOME_PAGE)
-                    orders = []
 
                     if home_page_option == '2.1':  # start ordering
 
@@ -320,10 +321,17 @@ and your order id is {order_id}')
                                             \nEnter N if you would like to select other mode of order:').upper()
 
                                             if yn_address == 'Y':
-                                                while user['address'] == '':
+                                                while new_user['address'] == '':
                                                     address = input(
                                                         'Please enter your address:')
-                                                    user['address'] = address
+                                                    new_user['address'] = address
+
+                                                    for user in users:
+                                                        if user['mobile_number'] == new_user['mobile_number'] and \
+                                                                user['password'] == new_user['password']:
+                                                            user['address'] = new_user['address']
+                                                            break
+
                                             elif yn_address == 'N':
                                                 break
 
