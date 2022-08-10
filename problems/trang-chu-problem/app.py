@@ -1,5 +1,7 @@
 import re
 import datetime
+import random
+import string
 
 MAIN_MENU_PROMPT = """Please enter 1 for Sign up.
 Please enter 2 for Log in.
@@ -30,16 +32,30 @@ Enter 6  for Pizza\tPrice AUD 20
 Enter 7 for Drinks Menu:
 """
 
-DINE_IN_MODE = """Enter 1  for Noodles\tPrice AUD 2
+DRINK_MENU = """Enter {}  for Coffee\tPrice AUD 2
+Enter {}  for Colddrink\tPrice AUD 4
+Enter {}  for Shake\tPrice AUD 6
+"""
+
+DINE_IN_MODE = f"""Enter 1  for Noodles\tPrice AUD 2
 Enter 2  for Sandwich\tPrice AUD 4
 Enter 3  for Dumpling\tPrice AUD 6
 Enter 4  for Muffins\tPrice AUD 8
 Enter 5  for Pasta\tPrice AUD 10
 Enter 6  for Pizza\tPrice AUD 20
-Enter 7  for Coffee\tPrice AUD 2
-Enter 8  for Colddrink\tPrice AUD 4
-Enter 9  for Shake\tPrice AUD 6
-"""
+{DRINK_MENU.format(7, 8, 9)}"""
+
+ORDERING = {
+    1: ('noodeles', 2),
+    2: ('sandwich', 4),
+    3: ('dumpling', 6),
+    4: ('muffins', 8),
+    5: ('pasta', 10),
+    6: ('pizza', 20),
+    7: ('coffee', 2),
+    8: ('colddrink', 4),
+    9: ('shake', 6)
+}
 
 
 class SignUp:
@@ -112,6 +128,17 @@ class SignUp:
         return signup
 
 
+class Order:
+    def __init__(self, order_id, order_date, type_of_order, order_amount=0):
+        self.id = order_id
+        self.date = order_date
+        self.order_type = type_of_order
+        self.amount = order_amount
+
+    def __str__(self) -> str:
+        return ''
+
+
 def get_user_input():
     name = input('Please enter your name:')
     print()
@@ -159,32 +186,112 @@ while True:
                 if user['mobile_number'] == user_name and \
                         user['password'] == user_password:
                     print("You have successfully Signed in")
-                    home_page_option = input(HOME_PAGE)
 
-                    if home_page_option == '2.1':
+                    while True:
+                        home_page_option = input(HOME_PAGE)
+                        orders = []
 
-                        order_option = input(ORDERING_PAGE)
+                        if home_page_option == '2.1':  # start ordering
+                            
+                            while True:
+                                order_option = int(input(ORDERING_PAGE))
 
-                        if order_option == '1': # dine in mode
+                                if order_option == 1:  # dine in mode
 
-                            dine_in_option = input(DINE_IN_MODE)
+                                    food_drink_option = int(input(DINE_IN_MODE))
 
-                        elif order_option == '2': # order online
+                                elif order_option == 2:  # order online
+                                    
+                                    order_online_option = int(input(
+                                        ORDER_ONLINE_PAGE))
 
-                            order_online_option = input(ORDER_ONLINE_PAGE)
+                                    # click and collect and delivery
+                                    if order_online_option == 1:  # self pickup
 
-                            if order_online_option in set('12'): # click and collect and delivery
-                                food_option = input(FOOD_MENU)
-                            elif order_online_option == '3': # go to previous menu
-                                pass
+                                        food_option = int(input(FOOD_MENU))
 
-                        elif order_option == '3': # go to login page
+                                        if food_option == 7:  # select drinks
+                                            
+                                            items = []
+                                            
+                                            while True:
+                                                drink_option = int(input(DRINK_MENU.format(1, 2, 3) +
+                                                                        'Enter 4 for Checkout:\n'))
+
+                                                if drink_option == 4:  # checkout
+                                                    yn_checkout = input('PLease Enter Y to proceed to Checkout or\
+                                                    \n Enter N to cancel the order:').\
+                                                        upper()
+
+                                                    if yn_checkout == 'Y':
+                                                        pass
+                                                    elif yn_checkout == 'N':
+                                                        pass
+
+                                    elif order_online_option == 2:  # home delivery
+                                        items = []
+
+                                        while True:
+                                            food_option = int(input(FOOD_MENU))
+
+                                            items.append(ORDERING.get(food_option))
+
+                                            if food_option == 7:  # select drinks
+                                                drink_option = int(input(DRINK_MENU.format(1, 2, 3) +
+                                                                        'Enter 4 for Checkout:\n'))
+                                                
+                                                items.append(ORDERING.get(10 - drink_option))
+
+                                                if user['address'] == '':
+
+                                                    yn_address = input('You have not mentioned your address, while signing up.\
+                                                    \nPlease Enter Y if would like to enter your address.\
+                                                    \nEnter N if you would like to select other mode of order:').upper()
+
+                                                    if yn_address == 'Y':
+                                                        address = input(
+                                                            'Please enter your address:')
+                                                        user['address'] = address
+                                                    elif yn_address == 'N':
+                                                        break
+
+                                                elif drink_option == 4:  # checkout
+
+                                                    yn_checkout = input('PLease Enter Y to proceed to Checkout or\
+                                                    \n Enter N to cancel the order:').\
+                                                        upper()
+
+                                                    if yn_checkout == 'Y':
+                                                        
+                                                        distance = float(input())
+                                                        while distance <= 0 or distance > 10:
+                                                            distance = float(input())
+                                                        
+                                                        total_amount = sum(item[1] for item in items)
+                                                        
+                                                        if distance <= 2:
+                                                            total_amount += 5
+                                                        elif distance <= 5:
+                                                            total_amount += 10
+                                                        else:
+                                                            total_amount += 18
+                                                            
+                                                        print(f'Your total payable amount: {total_amount}\
+                                                              and there will be an additional charges for Delivery.')
+                                                        
+                                                    elif yn_checkout == 'N':
+                                                        break
+
+                                    elif order_online_option == 3:  # go to previous menu
+                                        pass
+
+                                elif order_option == 3:  # go to login page
+                                    break
+
+                        elif home_page_option == '2.2':  # print statistics
                             pass
-
-                    elif home_page_option == '2.2':
-                        pass
-                    elif home_page_option == '2.3':
-                        pass
+                        elif home_page_option == '2.3':  # logout
+                            break
 
     elif user_option == 3:
         print("Thank You for using the Application.")
