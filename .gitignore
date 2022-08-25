@@ -6,3 +6,4 @@ data
 dist
 *.spec
 *.idea
+.vscode
