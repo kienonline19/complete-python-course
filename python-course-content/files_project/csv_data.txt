@@ -1,0 +1,5 @@
+name,age,university,degree
+rolf,25,mit,computer science
+jose,90,oxford,computing
+anna,30,cambridge,physics
+kenny,30,mit,computer science
