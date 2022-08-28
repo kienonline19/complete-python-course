@@ -14,7 +14,7 @@ cars = [
     { 'make': 'Ford', 'model': 'Focus' },
 ]
 
-# json.dump - write dict to file
+# json.dump - write list dicts/dict to file
 out_file = open('cars_json.txt', 'w')
 json.dump(cars, out_file)
 out_file.close()
