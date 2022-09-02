@@ -13,3 +13,28 @@ def add_book(name, author):
         'author': author,
         'read': False
     })
+
+
+def get_all_books():
+    if books:
+        for book in books:
+            print('Name: {name} - author: {author} - read: {read}'.format(**book))
+    else:
+        print('The list of books is empty!')
+
+
+def mark_as_read(name):
+    if books:
+        for book in books:
+            if book['name'] == name:
+                book['read'] = True
+    else:
+        print('The list of books is empty!')
+
+
+def delete_book(name):
+    global books
+    if books:    
+        books = [book for book in books if book['name'] != name]
+    else:
+        print('The list of books is empty!')
