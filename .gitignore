@@ -7,4 +7,3 @@ dist
 *.spec
 *.idea
 .vscode
-data
