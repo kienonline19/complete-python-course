@@ -1,4 +1,4 @@
-from utils import database
+from utils import json_database as database
 
 USER_CHOICE = """
 Enter:
@@ -13,8 +13,8 @@ Your choice: """
 
 # ask for book name and author
 def prompt_add_book():
-    name = input('Enter the book name: ')
-    author = input('Enter the book author: ')
+    name = input('Enter the new book name: ')
+    author = input('Enter the new book author: ')
     database.add_book(name, author)
 
 
@@ -25,13 +25,13 @@ def list_books():
 
 # ask for book name and change it to 'read' in our list
 def prompt_read_book():
-    name = input('Enter the book name: ')
-    database.mark_as_read(name)
+    name = input('Enter the name of the book you just finished reading: ')
+    database.mark_book_as_read(name)
 
 
 # ask for book name and remove book from list
 def prompt_delete_book():
-    name = input('Enter the book name: ')
+    name = input('Enter the name of the book you wish to delete: ')
     database.delete_book(name)
 
 
@@ -44,13 +44,14 @@ operations = {
 
 
 def menu():
+    database.create_book_table()
     user_input = input(USER_CHOICE)
 
     while user_input != 'q':
         if user_input in operations:
             operations[user_input]()
         else:
-            print('Invalid option, please enter again!')
+            print('Unknown command. Please try again!')
 
         user_input = input(USER_CHOICE)
 

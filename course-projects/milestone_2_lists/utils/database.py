@@ -18,12 +18,13 @@ def add_book(name, author):
 def get_all_books():
     if books:
         for book in books:
-            print('Name: {name} - author: {author} - read: {read}'.format(**book))
+            read = 'YES' if book['read'] else 'NO'
+            print(f"{book['name']} by {book['author']}, read: {read}")
     else:
         print('The list of books is empty!')
 
 
-def mark_as_read(name):
+def mark_book_as_read(name):
     if books:
         for book in books:
             if book['name'] == name:
@@ -34,7 +35,7 @@ def mark_as_read(name):
 
 def delete_book(name):
     global books
-    if books:    
+    if books:
         books = [book for book in books if book['name'] != name]
     else:
         print('The list of books is empty!')
