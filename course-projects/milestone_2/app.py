@@ -1,4 +1,4 @@
-from utils import  database
+from utils import database
 
 USER_CHOICE = """
 Enter:
@@ -20,7 +20,12 @@ def prompt_add_book():
 
 # show all books in our list
 def list_books():
-    database.get_all_books()
+    books = database.get_all_books()
+
+    for book in books:
+        name, author, read = book.values()
+        read_status = 'YES' if read else 'NO'
+        print(f"{name} by {author}, read: {read_status!r}")
 
 
 # ask for book name and change it to 'read' in our list
