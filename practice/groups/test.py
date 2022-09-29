@@ -20,5 +20,5 @@ if length % 2 == 0:
     print("There is no central point.")
     show(s[:half], s[half:])
 else:
-    print(f"The central point of the string is {s[length // 2]}.")
+    print(f"The central point of the string is {s[half]}.")
     show(s[:half], s[half+1:])
