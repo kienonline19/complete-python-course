@@ -1,0 +1,16 @@
+2022-09-30 19:28:21,202 DEBUG    [main.py:11] This is a debug message.
+2022-09-30 19:28:21,202 INFO     [main.py:12] This will not show up.
+2022-09-30 19:28:21,202 WARNING  [main.py:13] This will.
+2022-09-30 19:28:21,202 CRITICAL [main.py:14] This is a critical message.
+2022-09-30 19:32:21,617 DEBUG    [main.py:11] This is a debug message.
+2022-09-30 19:32:21,617 INFO     [main.py:12] This will not show up.
+2022-09-30 19:32:21,617 WARNING  [main.py:13] This will.
+2022-09-30 19:32:21,617 CRITICAL [main.py:14] This is a critical message.
+2022-09-30 19:34:02,048 DEBUG    [main.py:11] This is a debug message.
+2022-09-30 19:34:02,048 INFO     [main.py:12] This will not show up.
+2022-09-30 19:34:02,048 WARNING  [main.py:13] This will.
+2022-09-30 19:34:02,048 CRITICAL [main.py:14] This is a critical message.
+30/09/2022 19:41:17 DEBUG    [main.py:12] This is a debug message.
+30/09/2022 19:41:17 INFO     [main.py:13] This will not show up.
+30/09/2022 19:41:17 WARNING  [main.py:14] This will.
+30/09/2022 19:41:17 CRITICAL [main.py:15] This is a critical message.
